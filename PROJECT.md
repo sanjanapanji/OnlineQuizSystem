@@ -79,3 +79,9 @@ online quiz system/
 - Added corresponding CSS modules for responsive inputs and layout
 - Deployed to Vercel successfully
 
+### ✅ Step 7 — UI Customization (2026-03-24)
+- Updated background gradients to blue and red for a more vibrant look
+- Synchronized logo and title gradients with the new color palette
+- Verified consistency across landing and registration pages
+
+
