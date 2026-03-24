@@ -69,6 +69,13 @@ online quiz system/
 - Built FastAPI backend with `/api/auth/register` and `/api/auth/login` paths, password hashing, and JWT tokens
 - Created `render.yaml` and deployed backend to Render web service URL: `https://online-quiz-backend-mp09.onrender.com`
 - Built Next.js frontend with landing page (Sign In / Sign Up buttons) using premium dark mode HTML/CSS
-- Deployed frontend to Vercel URL: `https://frontend-Ykappa-ten-28.vercel.app`
+- Deployed frontend to Vercel URL: `https://frontend-Ykappa-ten-28.vercel.app` (now `quizmaster-premium-frontend.vercel.app`)
 - Pushed architecture to GitHub repository `main` branch
+
+### ✅ Step 6 — Registration Page (2026-03-24)
+- Created `register` page with beautiful glassmorphism dark-mode UI
+- Implemented client-side logic connected to the FastAPI backend API
+- Handled API errors and redirections seamlessly
+- Added corresponding CSS modules for responsive inputs and layout
+- Deployed to Vercel successfully
 
