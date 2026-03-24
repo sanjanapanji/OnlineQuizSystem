@@ -48,6 +48,16 @@ online quiz system/
 | User           | `neondb_owner`                                                           |
 | Host           | `ep-twilight-shadow-a111n2ar.ap-southeast-1.aws.neon.tech`               |
 
+### ✅ Step 3 — GitHub Repo & Initial Push (2026-03-23)
+- Created GitHub repo [`OnlineQuizSystem`](https://github.com/sanjanapanji/OnlineQuizSystem)
+- Added `.gitignore` to protect secrets (`tokens`, `.env`)
+- Initialized local git, committed 8 files, pushed to `main` branch
+
+### ✅ Step 4 — Created OnlineQuizSystem Database (2026-03-23)
+- Created `OnlineQuizSystem` database via Neon API
+- Connection tested: PostgreSQL 17.8, 0 public tables (fresh DB)
+- Updated `db/.env` with new database connection string
+
 ---
 
 ## Upcoming Steps
