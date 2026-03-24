@@ -63,3 +63,12 @@ online quiz system/
 ## Upcoming Steps
 
 > Steps will be added here as we finalize each one during the project build.
+
+### ✅ Step 5 — Index Page + Auth Setup (2026-03-24)
+- Created `users` table in Neon database for profile storage
+- Built FastAPI backend with `/api/auth/register` and `/api/auth/login` paths, password hashing, and JWT tokens
+- Created `render.yaml` and deployed backend to Render web service URL: `https://online-quiz-backend-mp09.onrender.com`
+- Built Next.js frontend with landing page (Sign In / Sign Up buttons) using premium dark mode HTML/CSS
+- Deployed frontend to Vercel URL: `https://frontend-Ykappa-ten-28.vercel.app`
+- Pushed architecture to GitHub repository `main` branch
+
