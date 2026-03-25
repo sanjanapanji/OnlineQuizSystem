@@ -83,7 +83,7 @@ online quiz system/
 - Updated background gradients to blue and red for a more vibrant look
 - Synchronized logo and title gradients with the new color palette
 - Verified consistency across landing and registration pages
-- Applied a specific red and blue linear gradient to the Sign-Up page background
+- Applied a specific red-to-blue linear gradient (`to right`) to the Sign-Up and Login page backgrounds for horizontal flow
 
 
 

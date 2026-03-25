@@ -41,13 +41,11 @@ export default function Login() {
 
       const data = await response.json();
       
-      // Store JWT token
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('user', JSON.stringify(data.user));
       }
 
-      // Redirect to dashboard (will be built in the next step)
       router.push('/');
     } catch (err) {
       setError(err.message);
@@ -58,10 +56,14 @@ export default function Login() {
 
   return (
     <div className={styles.container}>
+      {/* Premium Background Elements */}
+      <div className={styles.bgOrb1}></div>
+      <div className={styles.bgOrb2}></div>
+
       <nav className={styles.navbar}>
         <Link href="/" className={styles.logo}>QuizMaster</Link>
         <div className={styles.navLinks}>
-          <Link href="/register" className={styles.outlineBtn}>Sign Up</Link>
+          <Link href="/register" className={styles.outlineBtn}>Get Started</Link>
         </div>
       </nav>
 
@@ -70,7 +72,7 @@ export default function Login() {
           <div className={styles.authCard}>
             <div className={styles.cardHeader}>
               <h2>Welcome Back</h2>
-              <p>Please sign in to your QuizMaster account.</p>
+              <p>Enter your details to access your dashboard</p>
             </div>
 
             {error && <div className={styles.errorMessage}>{error}</div>}
@@ -78,15 +80,21 @@ export default function Login() {
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.formGroup}>
                 <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
-                  required
-                />
+                <div className={styles.inputWrapper}>
+                  <svg className={styles.inputIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="name@example.com"
+                    required
+                  />
+                </div>
               </div>
 
               <div className={styles.formGroup}>
@@ -94,15 +102,21 @@ export default function Login() {
                   <label htmlFor="password">Password</label>
                   <Link href="/forgot-password" className={styles.forgotLink}>Forgot password?</Link>
                 </div>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  required
-                />
+                <div className={styles.inputWrapper}>
+                  <svg className={styles.inputIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
               </div>
 
               <button 
@@ -110,12 +124,12 @@ export default function Login() {
                 className={styles.submitBtn} 
                 disabled={loading}
               >
-                {loading ? 'Signing In...' : 'Sign In'}
+                {loading ? 'Authenticating...' : 'Sign In to Account'}
               </button>
             </form>
 
             <div className={styles.cardFooter}>
-              <p>New to QuizMaster? <Link href="/register">Create an account</Link></p>
+              <p>Don't have an account?<Link href="/register">Sign up now</Link></p>
             </div>
           </div>
         </div>
