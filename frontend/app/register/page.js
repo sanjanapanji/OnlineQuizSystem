@@ -37,16 +37,21 @@ export default function Register() {
         body: JSON.stringify(formData),
       });
 
+      console.log('Registration response status:', response.status);
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Registration error data:', errorData);
         throw new Error(errorData.detail || 'Registration failed');
       }
 
+      console.log('Registration successful, setting success state');
       setSuccess(true);
       setTimeout(() => {
+        console.log('Redirecting to /login...');
         router.push('/login');
       }, 2000);
     } catch (err) {
+      console.error('Registration caught error:', err);
       setError(err.message);
     } finally {
       setLoading(false);
