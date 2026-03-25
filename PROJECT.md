@@ -85,6 +85,12 @@ online quiz system/
 - Verified consistency across landing and registration pages
 - Applied a specific red-to-blue linear gradient (`to right`) to the Sign-Up and Login page backgrounds for horizontal flow
 - Restored the Front Page (Landing Page) background color to black with premium red/blue gradients
+### ✅ Step 9 — Dashboard & Signup Fix (2026-03-25)
+- Fixed the signup flow by adding diagnostic logging and ensuring correct API orientation
+- Implemented the **Dashboard Page** with a premium dark theme and red/blue accents
+- Updated the backend to include the `user` object in the login response for frontend state
+- Successfully connected to the new Neon database pooler link
+- Redeployed both Frontend (Vercel) and Backend (Render)
 
 
 
