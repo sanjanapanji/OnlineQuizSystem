@@ -84,7 +84,7 @@ online quiz system/
 - Synchronized logo and title gradients with the new color palette
 - Verified consistency across landing and registration pages
 - Applied a specific red-to-blue linear gradient (`to right`) to the Sign-Up and Login page backgrounds for horizontal flow
-- Updated the Front Page (Landing Page) background color to white with adjusted text contrast
+- Restored the Front Page (Landing Page) background color to black with premium red/blue gradients
 
 
 
