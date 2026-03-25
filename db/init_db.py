@@ -11,7 +11,9 @@ def init_db():
     conn.autocommit = True
     cur = conn.cursor()
     
-    with open("schema.sql", "r") as f:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    schema_path = os.path.join(base_dir, "schema.sql")
+    with open(schema_path, "r") as f:
         schema = f.read()
     
     cur.execute(schema)
