@@ -4,6 +4,8 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  background-color: #ffffff;
+  color: #111827;
 }
 
 .gradientTop {
@@ -118,7 +120,7 @@
 
 .subtitle {
   font-size: clamp(1rem, 2vw, 1.25rem);
-  color: #a1a1aa;
+  color: #4b5563;
   max-width: 600px;
   margin-bottom: 2.5rem;
   line-height: 1.6;
@@ -170,11 +172,10 @@
 }
 
 .card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 16px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
@@ -196,7 +197,7 @@
 }
 
 .card p {
-  color: #a1a1aa;
+  color: #4b5563;
   line-height: 1.5;
   font-size: 0.95rem;
 }
@@ -204,8 +205,8 @@
 .footer {
   text-align: center;
   padding: 2rem;
-  border-top: 1px solid var(--border);
-  color: #71717a;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
   font-size: 0.875rem;
   z-index: 10;
 }
