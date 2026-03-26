@@ -28,11 +28,9 @@ export default function Register() {
     setSuccess(false);
 
     try {
-      let baseApiUrl = process.env.NEXT_PUBLIC_API_URL || "https://online-quiz-backend-mp09.onrender.com";
-      // Normalize URL: remove trailing slash if present
-      const apiUrl = baseApiUrl.replace(/\/$/, "");
+      // Hardcoded for absolute stability in Step 10
+      const apiUrl = "https://online-quiz-backend-mp09.onrender.com";
       
-      console.log('Using API URL:', apiUrl);
       const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -41,21 +39,14 @@ export default function Register() {
         body: JSON.stringify(formData),
       });
 
-      console.log('Registration response status:', response.status);
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Registration API Error Details:', errorData);
-        throw new Error(errorData.detail || `Registration failed with status ${response.status}`);
+        throw new Error(errorData.detail || "Registration failed");
       }
 
-      console.log('Registration successful, setting success state');
       setSuccess(true);
-      setTimeout(() => {
-        console.log('Redirecting to /login...');
-        router.push('/login');
-      }, 2000);
+      setTimeout(() => router.push('/login'), 2000);
     } catch (err) {
-      console.error('Registration caught error:', err);
       setError(err.message);
     } finally {
       setLoading(false);
