@@ -4,20 +4,25 @@ from .routes import auth
 
 app = FastAPI(title="Online Quiz System API")
 
-# Configure CORS for local development and Vercel frontend
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://quizmaster-premium-frontend.vercel.app",
-]
-
+# Configure Permissive CORS for debugging
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False, # Set to False to allow "*" origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"Incoming request: {request.method} {request.url}")
+    try:
+        response = await call_next(request)
+        print(f"Response status: {response.status_code}")
+        return response
+    except Exception as e:
+        print(f"Request ERROR: {e}")
+        raise e
 
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 
