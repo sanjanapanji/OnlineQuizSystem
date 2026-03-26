@@ -5,9 +5,15 @@ from .routes import auth
 app = FastAPI(title="Online Quiz System API")
 
 # Configure CORS for local development and Vercel frontend
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://quizmaster-premium-frontend.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with Vercel URL
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
