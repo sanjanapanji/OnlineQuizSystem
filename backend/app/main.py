@@ -16,6 +16,19 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI(title="Online Quiz System - Stabilized")
 
+# Middleware for request logging
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"Incoming request: {request.method} {request.url}")
+    try:
+        response = await call_next(request)
+        print(f"Response status: {response.status_code}")
+        return response
+    except Exception as e:
+        print(f"ERROR: {e}")
+        from fastapi.responses import JSONResponse
+        return JSONResponse(status_code=500, content={"detail": str(e)})
+
 # Permissive CORS
 app.add_middleware(
     CORSMiddleware,
