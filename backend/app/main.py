@@ -4,7 +4,7 @@ from psycopg2.extras import RealDictCursor
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
-from passlib.context import CryptContext
+import bcrypt
 from datetime import datetime, timedelta
 from jose import jwt
 from fastapi.responses import JSONResponse
@@ -27,7 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Removed passlib CryptContext to bypass passlib/bcrypt 4.0.0+ initialization bug
 
 # Global CORS Headers for Manual Use
 CORS_HEADERS = {
@@ -88,9 +88,9 @@ def register(user: UserCreate, db = Depends(get_db)):
             print(f"REGISTER FAILED: User exists {user.email}")
             raise HTTPException(status_code=400, detail="User already exists")
         
-        # Bcrypt has a hard 72-byte limit. We truncate by BYTES to handle Unicode safely.
-        safe_password = user.password.encode('utf-8')[:72].decode('utf-8', 'ignore')
-        hashed = pwd_context.hash(safe_password)
+        # Bcrypt has a hard 71-byte limit. Passlib is bugged, so we use native bcrypt.
+        safe_password_bytes = user.password.encode('utf-8')[:71]
+        hashed = bcrypt.hashpw(safe_password_bytes, bcrypt.gensalt()).decode('utf-8')
         cursor.execute(
             "INSERT INTO users (email, password_hash, full_name, role) VALUES (%s, %s, %s, %s) RETURNING id, email, full_name",
             (user.email, hashed, user.full_name, 'student')
@@ -118,9 +118,9 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
         print(f"LOGIN FAILED: User not found {user_credentials.email}")
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
-    # Match the byte-safe truncation from registration
-    safe_password = user_credentials.password.encode('utf-8')[:72].decode('utf-8', 'ignore')
-    if not pwd_context.verify(safe_password, user['password_hash']):
+    # Match native bcrypt truncation
+    safe_password_bytes = user_credentials.password.encode('utf-8')[:71]
+    if not bcrypt.checkpw(safe_password_bytes, user['password_hash'].encode('utf-8')):
         print(f"LOGIN FAILED: Multi-factor or password mismatch {user_credentials.email}")
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
