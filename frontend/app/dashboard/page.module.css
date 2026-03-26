@@ -166,9 +166,9 @@
 .secondaryActionBtn {
   width: 100%;
   padding: 0.875rem;
-  background: transparent;
+  background: #ec4899; /* Pink background */
   color: white;
-  border: 1px solid #4f46e5;
+  border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
@@ -176,7 +176,7 @@
 }
 
 .secondaryActionBtn:hover {
-  background: rgba(79, 70, 229, 0.1);
+  background: #db2777; /* Darker pink on hover */
 }
 
 .loadingContainer {
