@@ -16,19 +16,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI(title="Online Quiz System - Stabilized")
 
-# Middleware for request logging
-@app.middleware("http")
-async def log_requests(request, call_next):
-    print(f"Incoming request: {request.method} {request.url}")
-    try:
-        response = await call_next(request)
-        print(f"Response status: {response.status_code}")
-        return response
-    except Exception as e:
-        print(f"ERROR: {e}")
-        from fastapi.responses import JSONResponse
-        return JSONResponse(status_code=500, content={"detail": str(e)})
-
 # Permissive CORS
 app.add_middleware(
     CORSMiddleware,
@@ -73,7 +60,9 @@ def register(user: UserCreate, db = Depends(get_db)):
         cursor.close()
         raise HTTPException(status_code=400, detail="User already exists")
     
-    hashed = pwd_context.hash(user.password)
+    # Bcrypt has a 72-byte limit. We truncate here to prevent crashes.
+    safe_password = user.password[:72]
+    hashed = pwd_context.hash(safe_password)
     cursor.execute(
         "INSERT INTO users (email, password_hash, full_name, role) VALUES (%s, %s, %s, %s) RETURNING id, email, full_name",
         (user.email, hashed, user.full_name, 'student')
@@ -90,7 +79,9 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
     user = cursor.fetchone()
     cursor.close()
 
-    if not user or not pwd_context.verify(user_credentials.password, user['password_hash']):
+    # Match the 72-byte truncation from registration
+    safe_password = user_credentials.password[:72]
+    if not user or not pwd_context.verify(safe_password, user['password_hash']):
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
     token_data = {"sub": user["email"], "id": user["id"]}
