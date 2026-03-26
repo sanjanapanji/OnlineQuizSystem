@@ -7,6 +7,8 @@ from pydantic import BaseModel, EmailStr, Field
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import jwt
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 # Configuration
 DATABASE_URL = "postgresql://neondb_owner:npg_yQjoG5kgivx7@ep-twilight-shadow-a111n2ar-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
@@ -26,6 +28,30 @@ app.add_middleware(
 )
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Global CORS Headers for Manual Use
+CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "*",
+}
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    print(f"GLOBAL ERROR: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)},
+        headers=CORS_HEADERS
+    )
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+        headers=CORS_HEADERS
+    )
 
 # Models
 class UserCreate(BaseModel):
@@ -50,38 +76,52 @@ def get_db():
 # Routes
 @app.get("/")
 def health():
-    return {"status": "ok", "version": "1.0.stabilized"}
+    return JSONResponse(content={"status": "ok", "version": "1.0.stabilized"}, headers=CORS_HEADERS)
 
 @app.post("/api/auth/register")
 def register(user: UserCreate, db = Depends(get_db)):
+    print(f"REGISTER ATTEMPT: {user.email}")
     cursor = db.cursor()
-    cursor.execute("SELECT id FROM users WHERE email = %s", (user.email,))
-    if cursor.fetchone():
+    try:
+        cursor.execute("SELECT id FROM users WHERE email = %s", (user.email,))
+        if cursor.fetchone():
+            print(f"REGISTER FAILED: User exists {user.email}")
+            raise HTTPException(status_code=400, detail="User already exists")
+        
+        # Bcrypt has a 72-byte limit. We truncate here to prevent crashes.
+        safe_password = user.password[:72]
+        hashed = pwd_context.hash(safe_password)
+        cursor.execute(
+            "INSERT INTO users (email, password_hash, full_name, role) VALUES (%s, %s, %s, %s) RETURNING id, email, full_name",
+            (user.email, hashed, user.full_name, 'student')
+        )
+        new_user = cursor.fetchone()
+        db.commit()
+        print(f"REGISTER SUCCESS: {user.email}")
+        return JSONResponse(content=jsonable_encoder(new_user), headers=CORS_HEADERS)
+    except Exception as e:
+        db.rollback()
+        print(f"REGISTER ERROR: {e}")
+        raise e
+    finally:
         cursor.close()
-        raise HTTPException(status_code=400, detail="User already exists")
-    
-    # Bcrypt has a 72-byte limit. We truncate here to prevent crashes.
-    safe_password = user.password[:72]
-    hashed = pwd_context.hash(safe_password)
-    cursor.execute(
-        "INSERT INTO users (email, password_hash, full_name, role) VALUES (%s, %s, %s, %s) RETURNING id, email, full_name",
-        (user.email, hashed, user.full_name, 'student')
-    )
-    new_user = cursor.fetchone()
-    db.commit()
-    cursor.close()
-    return new_user
 
 @app.post("/api/auth/login")
 def login(user_credentials: UserLogin, db = Depends(get_db)):
+    print(f"LOGIN ATTEMPT: {user_credentials.email}")
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users WHERE email = %s", (user_credentials.email,))
     user = cursor.fetchone()
     cursor.close()
 
+    if not user:
+        print(f"LOGIN FAILED: User not found {user_credentials.email}")
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+        
     # Match the 72-byte truncation from registration
     safe_password = user_credentials.password[:72]
-    if not user or not pwd_context.verify(safe_password, user['password_hash']):
+    if not pwd_context.verify(safe_password, user['password_hash']):
+        print(f"LOGIN FAILED: Multi-factor or password mismatch {user_credentials.email}")
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
     token_data = {"sub": user["email"], "id": user["id"]}
@@ -89,7 +129,8 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
     token_data.update({"exp": expire})
     token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
     
-    return {
+    print(f"LOGIN SUCCESS: {user_credentials.email}")
+    return JSONResponse(content={
         "access_token": token,
         "token_type": "bearer",
         "user": {
@@ -97,4 +138,4 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
             "email": user["email"],
             "full_name": user["full_name"]
         }
-    }
+    }, headers=CORS_HEADERS)
