@@ -88,8 +88,8 @@ def register(user: UserCreate, db = Depends(get_db)):
             print(f"REGISTER FAILED: User exists {user.email}")
             raise HTTPException(status_code=400, detail="User already exists")
         
-        # Bcrypt has a 72-byte limit. We truncate here to prevent crashes.
-        safe_password = user.password[:72]
+        # Bcrypt has a hard 72-byte limit. We truncate by BYTES to handle Unicode safely.
+        safe_password = user.password.encode('utf-8')[:72].decode('utf-8', 'ignore')
         hashed = pwd_context.hash(safe_password)
         cursor.execute(
             "INSERT INTO users (email, password_hash, full_name, role) VALUES (%s, %s, %s, %s) RETURNING id, email, full_name",
@@ -118,8 +118,8 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
         print(f"LOGIN FAILED: User not found {user_credentials.email}")
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
-    # Match the 72-byte truncation from registration
-    safe_password = user_credentials.password[:72]
+    # Match the byte-safe truncation from registration
+    safe_password = user_credentials.password.encode('utf-8')[:72].decode('utf-8', 'ignore')
     if not pwd_context.verify(safe_password, user['password_hash']):
         print(f"LOGIN FAILED: Multi-factor or password mismatch {user_credentials.email}")
         raise HTTPException(status_code=401, detail="Invalid credentials")
