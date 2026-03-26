@@ -76,7 +76,9 @@ export default function Dashboard() {
             <div className={styles.actionIcon}>📝</div>
             <h2>Take a Quiz</h2>
             <p>Browse available quizzes and start learning.</p>
-            <button className={styles.primaryActionBtn}>Browse Quizzes</button>
+            <Link href="/quizzes" className={styles.primaryActionBtn} style={{ display: 'inline-block', textDecoration: 'none' }}>
+              Browse Quizzes
+            </Link>
           </div>
           <div className={styles.actionCard}>
             <div className={styles.actionIcon}>🏆</div>
