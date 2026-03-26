@@ -26,10 +26,10 @@ export default function Home() {
           </p>
           <div className={styles.ctaGroup}>
             <Link href="/register" className={styles.primaryBtnLarge}>
-              Get Started for Free
+              Join Now
             </Link>
             <Link href="/login" className={styles.secondaryBtnLarge}>
-              Sign In to Your Account
+              Sign In to Account
             </Link>
           </div>
         </div>

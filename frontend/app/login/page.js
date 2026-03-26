@@ -25,7 +25,9 @@ export default function Login() {
     setError(null);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://online-quiz-backend-mp09.onrender.com";
+      // Hardcoded for absolute stability in Step 10
+      const apiUrl = "https://online-quiz-backend-mp09.onrender.com";
+      
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
