@@ -96,5 +96,9 @@ online quiz system/
 - **Verified Stabilization:** Confirmed 200 OK from the new production backend (`1.0.stabilized`).
 - **Final Handover:** All authentication flows (Join/Sign In) are fully functional and live.
 
+### ✅ Step 11 — Security & Stability Patch (2026-03-26)
+- **Resolved Bcrypt Limit:** Implemented safe 72-character truncation for passwords to prevent algorithm crashes on long inputs.
+- **Robust Auth:** Verified that both registration and login handle extreme password lengths gracefully.
+
 
 
