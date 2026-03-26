@@ -29,6 +29,7 @@ def register(user: UserCreate, db: connection = Depends(get_db_connection)):
     # Hash password and insert
     hashed_password = pwd_context.hash(user.password)
     try:
+        print(f"Creating user profile for: {user.email}")
         cursor.execute(
             """
             INSERT INTO users (email, password_hash, full_name, role)
@@ -39,6 +40,7 @@ def register(user: UserCreate, db: connection = Depends(get_db_connection)):
         )
         new_user = cursor.fetchone()
         db.commit()
+        print(f"User profile created successfully for: {user.email}")
         return new_user
     except Exception as e:
         db.rollback()
