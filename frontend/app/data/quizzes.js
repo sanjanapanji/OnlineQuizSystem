@@ -21,6 +21,12 @@ export const quizzes = [
         question: "Which keyword is used to define a function?",
         options: ["func", "define", "def", "function"],
         answer: 2
+      },
+      {
+        id: 3,
+        question: "What is a list in Python?",
+        options: ["A mutable collection", "A function", "A loop", "A keyword"],
+        answer: 0
       }
     ]
   },

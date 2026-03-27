@@ -202,29 +202,23 @@ export default function QuizTakingPage({ params }) {
                 className={`${styles.optionBtn} ${answers[currentIdx] === idx ? styles.selectedOption : ''}`}
                 onClick={() => handleOptionSelect(idx)}
               >
-                <div className={styles.optionLetter}>{String.fromCharCode(65 + idx)}</div>
+                <div className={styles.radioCircle}>
+                  {answers[currentIdx] === idx && <div className={styles.radioInner}></div>}
+                </div>
                 <div className={styles.optionLabel}>{option}</div>
               </button>
             ))}
           </div>
         </div>
 
-        <div className={styles.navigationControls}>
-          <button 
-            className={styles.navBtn} 
-            disabled={currentIdx === 0}
-            onClick={() => setCurrentIdx(currentIdx - 1)}
-          >
-            ← Previous
-          </button>
-          
-          {currentIdx < 9 ? (
+        <div className={styles.navigationControls} style={{ justifyContent: 'center' }}>
+          {currentIdx < quiz.questions.length - 1 ? (
             <button 
               className={`${styles.navBtn} ${styles.primaryNavBtn}`}
               disabled={!hasAnsweredCurrent}
               onClick={() => setCurrentIdx(currentIdx + 1)}
             >
-              Next Question →
+              Next
             </button>
           ) : (
             <button 
