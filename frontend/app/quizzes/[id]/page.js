@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { quizzes } from '../../data/quizzes';
 import styles from './page.module.css';
 
 export default function QuizTakingPage({ params }) {
+  const resolvedParams = use(params);
+  const quizId = resolvedParams.id;
+  
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,14 +33,14 @@ export default function QuizTakingPage({ params }) {
     setUser(JSON.parse(storedUser));
     
     // Find quiz
-    const foundQuiz = quizzes.find(q => q.id === params.id);
+    const foundQuiz = quizzes.find(q => q.id === quizId);
     if (!foundQuiz) {
       router.push('/quizzes');
     } else {
       setQuiz(foundQuiz);
       setLoading(false);
     }
-  }, [params.id, router]);
+  }, [quizId, router]);
 
   const handleOptionSelect = (optionIndex) => {
     setAnswers({
