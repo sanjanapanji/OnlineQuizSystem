@@ -12,7 +12,6 @@ export default function QuizTakingPage({ params }) {
   const [loading, setLoading] = useState(true);
   
   const [quiz, setQuiz] = useState(null);
-  const [hasStarted, setHasStarted] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -54,6 +53,18 @@ export default function QuizTakingPage({ params }) {
         newScore += 1;
       }
     });
+
+    // Save to LocalStorage History
+    const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+    history.push({
+      quizId: quiz.id,
+      title: quiz.title,
+      score: newScore,
+      total: quiz.questions.length,
+      date: new Date().toISOString()
+    });
+    localStorage.setItem('quizHistory', JSON.stringify(history));
+
     setScore(newScore);
     setShowResults(true);
   };
@@ -100,7 +111,6 @@ export default function QuizTakingPage({ params }) {
                   setAnswers({});
                   setCurrentIdx(0);
                   setShowResults(false);
-                  setHasStarted(false);
                 }}
               >
                 Retry Quiz
@@ -110,55 +120,6 @@ export default function QuizTakingPage({ params }) {
                 onClick={() => router.push('/dashboard')}
               >
                 Return to Dashboard
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  if (!hasStarted) {
-    return (
-      <div className={styles.container}>
-        <nav className={styles.navbar}>
-          <div className={styles.navLeft}>
-            <Link href="/" className={styles.logo}>QuizMaster</Link>
-          </div>
-          <div className={styles.navRight}>
-            <span className={styles.userName}>{user?.full_name}</span>
-          </div>
-        </nav>
-
-        <main className={styles.main}>
-          <div className={styles.startCard}>
-            <div className={styles.resultIcon}>{quiz.icon}</div>
-            <h1 className={styles.resultTitle}>{quiz.title}</h1>
-            <p className={styles.resultText}>{quiz.description}</p>
-            
-            <div className={styles.quizMetaDetails}>
-              <div className={styles.metaItem}>
-                <strong>Questions:</strong> {quiz.questions.length}
-              </div>
-              <div className={styles.metaItem}>
-                <strong>Format:</strong> Multiple Choice
-              </div>
-            </div>
-
-            <button 
-              className={styles.dashboardBtnLarge} 
-              onClick={() => setHasStarted(true)}
-              style={{ marginTop: '2rem' }}
-            >
-              Start Quiz Now
-            </button>
-            
-            <div style={{ marginTop: '1rem' }}>
-              <button 
-                className={styles.retryBtn} 
-                onClick={() => router.push('/quizzes')}
-              >
-                ← Back to Quizzes
               </button>
             </div>
           </div>
@@ -202,23 +163,29 @@ export default function QuizTakingPage({ params }) {
                 className={`${styles.optionBtn} ${answers[currentIdx] === idx ? styles.selectedOption : ''}`}
                 onClick={() => handleOptionSelect(idx)}
               >
-                <div className={styles.radioCircle}>
-                  {answers[currentIdx] === idx && <div className={styles.radioInner}></div>}
-                </div>
+                <div className={styles.optionLetter}>{String.fromCharCode(65 + idx)}</div>
                 <div className={styles.optionLabel}>{option}</div>
               </button>
             ))}
           </div>
         </div>
 
-        <div className={styles.navigationControls} style={{ justifyContent: 'center' }}>
-          {currentIdx < quiz.questions.length - 1 ? (
+        <div className={styles.navigationControls}>
+          <button 
+            className={styles.navBtn} 
+            disabled={currentIdx === 0}
+            onClick={() => setCurrentIdx(currentIdx - 1)}
+          >
+            ← Previous
+          </button>
+          
+          {currentIdx < 9 ? (
             <button 
               className={`${styles.navBtn} ${styles.primaryNavBtn}`}
               disabled={!hasAnsweredCurrent}
               onClick={() => setCurrentIdx(currentIdx + 1)}
             >
-              Next
+              Next Question →
             </button>
           ) : (
             <button 

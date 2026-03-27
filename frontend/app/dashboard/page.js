@@ -9,6 +9,12 @@ export default function Dashboard() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // Stats state
+  const [totalQuizzes, setTotalQuizzes] = useState(0);
+  const [averageScore, setAverageScore] = useState(0);
+  const [rank, setRank] = useState('Novice');
+  const [recentScores, setRecentScores] = useState([]);
 
   useEffect(() => {
     // Basic auth check
@@ -19,6 +25,26 @@ export default function Dashboard() {
       router.push('/login');
     } else {
       setUser(JSON.parse(storedUser));
+      
+      // Load History Stats
+      const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+      setTotalQuizzes(history.length);
+      
+      if (history.length > 0) {
+        // Calculate Average (percentage)
+        const totalPoints = history.reduce((sum, item) => sum + item.score, 0);
+        const totalPossible = history.reduce((sum, item) => sum + item.total, 0);
+        const avg = Math.round((totalPoints / totalPossible) * 100);
+        setAverageScore(avg);
+        
+        // Calculate Rank
+        if (history.length >= 10 && avg >= 80) setRank('Master');
+        else if (history.length >= 5 && avg >= 60) setRank('Pro');
+        else if (history.length >= 2) setRank('Intermediate');
+        else setRank('Novice');
+      }
+
+      setRecentScores(history.slice(-3).reverse());
       setLoading(false);
     }
   }, [router]);
@@ -59,17 +85,38 @@ export default function Dashboard() {
         <section className={styles.statsGrid}>
           <div className={styles.statCard}>
             <h3>Quizzes Taken</h3>
-            <div className={styles.statValue}>0</div>
+            <div className={styles.statValue}>{totalQuizzes}</div>
           </div>
           <div className={styles.statCard}>
             <h3>Average Score</h3>
-            <div className={styles.statValue}>0%</div>
+            <div className={styles.statValue}>{totalQuizzes > 0 ? `${averageScore}%` : 'N/A'}</div>
           </div>
           <div className={styles.statCard}>
             <h3>Rank</h3>
-            <div className={styles.statValue}>Novice</div>
+            <div className={styles.statValue}>{rank}</div>
           </div>
         </section>
+
+        {recentScores.length > 0 && (
+          <section className={styles.recentScoresSection}>
+            <h2 className={styles.sectionTitle}>Recent Activity</h2>
+            <div className={styles.recentList}>
+              {recentScores.map((scoreObj, idx) => (
+                <div key={idx} className={styles.recentItem}>
+                  <div className={styles.recentInfo}>
+                    <h4>{scoreObj.title}</h4>
+                    <span className={styles.recentDate}>
+                      {new Date(scoreObj.date).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className={styles.recentScoreTag}>
+                    {scoreObj.score} / {scoreObj.total}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className={styles.actions}>
           <div className={styles.actionCard}>
