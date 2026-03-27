@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { quizzes } from '../../data/quizzes';
 import styles from './page.module.css';
 
-export default function QuizTakingPage({ params }) {
+export default function QuizTakingPage({ params: paramsPromise }) {
+  const params = use(paramsPromise);
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   const [quiz, setQuiz] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -25,10 +26,10 @@ export default function QuizTakingPage({ params }) {
     if (!storedUser || !token) {
       router.push('/login');
       return;
-    } 
-    
+    }
+
     setUser(JSON.parse(storedUser));
-    
+
     // Find quiz
     const foundQuiz = quizzes.find(q => q.id === params.id);
     if (!foundQuiz) {
@@ -99,14 +100,14 @@ export default function QuizTakingPage({ params }) {
               <span className={styles.scoreText}>{score}</span>
               <span className={styles.scoreTotal}>/ 10</span>
             </div>
-            
+
             <div className={styles.feedbackMsg}>
               {score >= 8 ? 'Excellent work!' : score >= 5 ? 'Good job, keep studying!' : 'Review the basics and try again!'}
             </div>
 
             <div className={styles.resultActions}>
-              <button 
-                className={styles.retryBtn} 
+              <button
+                className={styles.retryBtn}
                 onClick={() => {
                   setAnswers({});
                   setCurrentIdx(0);
@@ -115,8 +116,8 @@ export default function QuizTakingPage({ params }) {
               >
                 Retry Quiz
               </button>
-              <button 
-                className={styles.dashboardBtnLarge} 
+              <button
+                className={styles.dashboardBtnLarge}
                 onClick={() => router.push('/dashboard')}
               >
                 Return to Dashboard
@@ -145,8 +146,8 @@ export default function QuizTakingPage({ params }) {
 
       <main className={styles.main}>
         <div className={styles.progressContainer}>
-          <div 
-            className={styles.progressBar} 
+          <div
+            className={styles.progressBar}
             style={{ width: `${((currentIdx + 1) / 10) * 100}%` }}
           ></div>
         </div>
@@ -171,16 +172,16 @@ export default function QuizTakingPage({ params }) {
         </div>
 
         <div className={styles.navigationControls}>
-          <button 
-            className={styles.navBtn} 
+          <button
+            className={styles.navBtn}
             disabled={currentIdx === 0}
             onClick={() => setCurrentIdx(currentIdx - 1)}
           >
             ← Previous
           </button>
-          
+
           {currentIdx < 9 ? (
-            <button 
+            <button
               className={`${styles.navBtn} ${styles.primaryNavBtn}`}
               disabled={!hasAnsweredCurrent}
               onClick={() => setCurrentIdx(currentIdx + 1)}
@@ -188,7 +189,7 @@ export default function QuizTakingPage({ params }) {
               Next Question →
             </button>
           ) : (
-            <button 
+            <button
               className={`${styles.navBtn} ${styles.submitBtn}`}
               disabled={!hasAnsweredCurrent}
               onClick={calculateScore}
