@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background-color: #2e1065; /* Deep Violet */
-  color: #ededed;
+  background-color: #ffffff;
+  color: #1a1a1a;
   display: flex;
   flex-direction: column;
 }
@@ -11,9 +11,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background: rgba(10, 10, 11, 0.8);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #27272a;
+  border-bottom: 1px solid #e4e4e7;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -31,7 +31,7 @@
 .quizTitleNav {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #fff;
+  color: #1a1a1a;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -46,7 +46,7 @@
 .userName, .progressText {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #a1a1aa;
+  color: #52525b;
 }
 
 .exitBtn {
@@ -76,7 +76,7 @@
 
 .progressContainer {
   height: 6px;
-  background: #27272a;
+  background: #e4e4e7;
   border-radius: 3px;
   margin-bottom: 3rem;
   overflow: hidden;
@@ -89,19 +89,20 @@
 }
 
 .questionCard {
-  background: rgba(24, 24, 27, 0.6);
-  border: 1px solid #27272a;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
   padding: 3rem;
   border-radius: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .questionText {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #fff;
+  color: #1a1a1a;
   margin-bottom: 2.5rem;
   line-height: 1.4;
 }
@@ -118,10 +119,10 @@
   align-items: center;
   width: 100%;
   padding: 1.25rem;
-  background: rgba(39, 39, 42, 0.4);
+  background: #f4f4f5;
   border: 2px solid transparent;
   border-radius: 12px;
-  color: #ededed;
+  color: #1a1a1a;
   font-size: 1.1rem;
   text-align: left;
   cursor: pointer;
@@ -129,8 +130,8 @@
 }
 
 .optionBtn:hover:not(.selectedOption) {
-  background: rgba(63, 63, 70, 0.4);
-  border-color: #3f3f46;
+  background: #e4e4e7;
+  border-color: #a1a1aa;
 }
 
 .selectedOption {
@@ -139,8 +140,8 @@
 }
 
 .optionLetter {
-  background: #27272a;
-  color: #a1a1aa;
+  background: #e4e4e7;
+  color: #52525b;
   width: 32px;
   height: 32px;
   display: flex;
@@ -170,8 +171,8 @@
 .navBtn {
   padding: 1rem 2rem;
   background: transparent;
-  color: #ededed;
-  border: 1px solid #3f3f46;
+  color: #1a1a1a;
+  border: 1px solid #e4e4e7;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
@@ -185,11 +186,12 @@
 }
 
 .navBtn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .primaryNavBtn {
   background: #2563eb;
+  color: white;
   border-color: #2563eb;
 }
 
@@ -199,6 +201,7 @@
 
 .submitBtn {
   background: #10b981;
+  color: white;
   border-color: #10b981;
 }
 
@@ -209,12 +212,13 @@
 /* Results Screen Styles */
 
 .resultsCard {
-  background: linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(39, 39, 42, 0.5) 100%);
-  border: 1px solid #27272a;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
   padding: 4rem 2rem;
   border-radius: 24px;
   text-align: center;
   margin-top: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .resultIcon {
@@ -232,7 +236,7 @@
 }
 
 .resultText {
-  color: #a1a1aa;
+  color: #52525b;
   font-size: 1.2rem;
   margin-bottom: 3rem;
 }
@@ -241,7 +245,7 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: rgba(10, 10, 11, 0.5);
+  background: #ffffff;
   border: 8px solid #2563eb;
   display: flex;
   flex-direction: column;
@@ -254,7 +258,7 @@
 .scoreText {
   font-size: 4rem;
   font-weight: 800;
-  color: #fff;
+  color: #1a1a1a;
   line-height: 1;
 }
 
@@ -267,7 +271,7 @@
 .feedbackMsg {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fff;
+  color: #1a1a1a;
   margin-bottom: 3rem;
 }
 
@@ -288,12 +292,12 @@
 
 .retryBtn {
   background: transparent;
-  color: #ededed;
-  border: 1px solid #3f3f46;
+  color: #1a1a1a;
+  border: 1px solid #e4e4e7;
 }
 
 .retryBtn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .dashboardBtnLarge {
@@ -312,15 +316,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #0a0a0b;
-  color: #ededed;
+  background: #ffffff;
+  color: #1a1a1a;
   gap: 1rem;
 }
 
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #27272a;
+  border: 5px solid #e4e4e7;
   border-bottom-color: #2563eb;
   border-radius: 50%;
   display: inline-block;
