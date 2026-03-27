@@ -7,62 +7,19 @@ export const quizzes = [
     questions: [
       {
         id: 1,
-        question: 'What is the correct file extension for Python files?',
-        options: ['.py', '.python', '.pt', '.pyt'],
-        answer: 0
+        question: "What is Python?",
+        options: [
+          "A snake",
+          "A programming language",
+          "A car brand",
+          "An operating system"
+        ],
+        answer: 1
       },
       {
         id: 2,
-        question: 'Which keyword is used to create a function in Python?',
-        options: ['function', 'def', 'create', 'func'],
-        answer: 1
-      },
-      {
-        id: 3,
-        question: 'How do you insert comments in Python code?',
-        options: ['// This is a comment', '/* This is a comment */', '# This is a comment', '-- This is a comment'],
-        answer: 2
-      },
-      {
-        id: 4,
-        question: 'Which method can be used to return a string in upper case letters?',
-        options: ['upper()', 'toUpperCase()', 'uppercase()', 'upperCase()'],
-        answer: 0
-      },
-      {
-        id: 5,
-        question: 'What is the correct syntax to output "Hello World" in Python?',
-        options: ['echo("Hello World");', 'p("Hello World")', 'print("Hello World")', 'console.log("Hello World")'],
-        answer: 2
-      },
-      {
-        id: 6,
-        question: 'Which collection is ordered, changeable, and allows duplicate members?',
-        options: ['SET', 'TUPLE', 'DICTIONARY', 'LIST'],
-        answer: 3
-      },
-      {
-        id: 7,
-        question: 'Which of the following is NOT a core data type in Python?',
-        options: ['Lists', 'Class', 'Dictionary', 'Tuples'],
-        answer: 1
-      },
-      {
-        id: 8,
-        question: 'What is the output of print(2 ** 3)?',
-        options: ['6', '8', '9', 'None'],
-        answer: 1
-      },
-      {
-        id: 9,
-        question: 'Which keyword is used for exception handling?',
-        options: ['try', 'except', 'finally', 'All of the above'],
-        answer: 3
-      },
-      {
-        id: 10,
-        question: 'What does the len() function do?',
-        options: ['Returns the type of an object', 'Calculates the math length of an object', 'Returns the number of items in an object', 'It is not a valid Python function'],
+        question: "Which keyword is used to define a function?",
+        options: ["func", "define", "def", "function"],
         answer: 2
       }
     ]
