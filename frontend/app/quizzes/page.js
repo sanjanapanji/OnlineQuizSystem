@@ -61,12 +61,9 @@ export default function QuizzesPage() {
                 <span>10 Questions</span>
                 <span>Multiple Choice</span>
               </div>
-              <button 
-                onClick={() => router.push(`/quizzes/${quiz.id}`)} 
-                className={styles.startBtn}
-              >
+              <Link href={`/quizzes/${quiz.id}`} className={styles.startBtn}>
                 Start Quiz
-              </button>
+              </Link>
             </div>
           ))}
         </section>

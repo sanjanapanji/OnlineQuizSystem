@@ -1,12 +1,12 @@
 :root {
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --secondary: #f4f4f5;
-  --secondary-hover: #e4e4e7;
-  --border: #e4e4e7;
-  --card-bg: #ffffff;
+  --background: #0a0a0b;
+  --foreground: #ededed;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --secondary: #1f2937;
+  --secondary-hover: #374151;
+  --border: #27272a;
+  --card-bg: rgba(24, 24, 27, 0.6);
 }
 
 

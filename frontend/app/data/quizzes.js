@@ -1,7 +1,7 @@
 export const quizzes = [
   {
     id: 'python-basics',
-    title: 'Python for Engineers',
+    title: 'Python basic',
     description: 'Test your knowledge on Python memory management, complex data structures, and computational concepts.',
     icon: '🐍',
     questions: [
