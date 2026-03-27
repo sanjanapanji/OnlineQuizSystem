@@ -131,7 +131,9 @@ export default function Dashboard() {
             <div className={styles.actionIcon}>🏆</div>
             <h2>Leaderboard</h2>
             <p>See how you compare with other players.</p>
-            <button className={styles.secondaryActionBtn}>View Rankings</button>
+            <Link href="/rankings" className={styles.secondaryActionBtn} style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}>
+              View Rankings
+            </Link>
           </div>
         </section>
       </main>
