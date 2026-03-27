@@ -209,8 +209,9 @@
   background: #059669;
 }
 
-/* Results Screen Styles */
+/* Start & Results Screen Styles */
 
+.startCard,
 .resultsCard {
   background: #ffffff;
   border: 1px solid #e4e4e7;
@@ -238,7 +239,23 @@
 .resultText {
   color: #52525b;
   font-size: 1.2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+}
+
+.quizMetaDetails {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.metaItem {
+  background: #f4f4f5;
+  color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  border: 1px solid #e4e4e7;
 }
 
 .scoreCircle {

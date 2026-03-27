@@ -12,6 +12,7 @@ export default function QuizTakingPage({ params }) {
   const [loading, setLoading] = useState(true);
   
   const [quiz, setQuiz] = useState(null);
+  const [hasStarted, setHasStarted] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -99,6 +100,7 @@ export default function QuizTakingPage({ params }) {
                   setAnswers({});
                   setCurrentIdx(0);
                   setShowResults(false);
+                  setHasStarted(false);
                 }}
               >
                 Retry Quiz
@@ -108,6 +110,55 @@ export default function QuizTakingPage({ params }) {
                 onClick={() => router.push('/dashboard')}
               >
                 Return to Dashboard
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (!hasStarted) {
+    return (
+      <div className={styles.container}>
+        <nav className={styles.navbar}>
+          <div className={styles.navLeft}>
+            <Link href="/" className={styles.logo}>QuizMaster</Link>
+          </div>
+          <div className={styles.navRight}>
+            <span className={styles.userName}>{user?.full_name}</span>
+          </div>
+        </nav>
+
+        <main className={styles.main}>
+          <div className={styles.startCard}>
+            <div className={styles.resultIcon}>{quiz.icon}</div>
+            <h1 className={styles.resultTitle}>{quiz.title}</h1>
+            <p className={styles.resultText}>{quiz.description}</p>
+            
+            <div className={styles.quizMetaDetails}>
+              <div className={styles.metaItem}>
+                <strong>Questions:</strong> {quiz.questions.length}
+              </div>
+              <div className={styles.metaItem}>
+                <strong>Format:</strong> Multiple Choice
+              </div>
+            </div>
+
+            <button 
+              className={styles.dashboardBtnLarge} 
+              onClick={() => setHasStarted(true)}
+              style={{ marginTop: '2rem' }}
+            >
+              Start Quiz Now
+            </button>
+            
+            <div style={{ marginTop: '1rem' }}>
+              <button 
+                className={styles.retryBtn} 
+                onClick={() => router.push('/quizzes')}
+              >
+                ← Back to Quizzes
               </button>
             </div>
           </div>
