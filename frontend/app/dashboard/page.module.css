@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background-color: #0a0a0b;
-  color: #ededed;
+  background-color: #ffffff;
+  color: #1a1a1a;
   display: flex;
   flex-direction: column;
 }
@@ -11,9 +11,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background: rgba(10, 10, 11, 0.8);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #27272a;
+  border-bottom: 1px solid #e4e4e7;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -36,13 +36,13 @@
 .userName {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #a1a1aa;
+  color: #52525b;
 }
 
 .logoutBtn {
   background: transparent;
-  border: 1px solid #3f3f46;
-  color: #ededed;
+  border: 1px solid #e4e4e7;
+  color: #1a1a1a;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
@@ -73,13 +73,13 @@
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  background: linear-gradient(to right, #fff, #a1a1aa);
+  background: linear-gradient(to right, #1a1a1a, #52525b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .header p {
-  color: #a1a1aa;
+  color: #52525b;
   font-size: 1.1rem;
 }
 
@@ -91,8 +91,9 @@
 }
 
 .statCard {
-  background: rgba(24, 24, 27, 0.6);
-  border: 1px solid #27272a;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   padding: 1.5rem;
   border-radius: 12px;
   text-align: center;
@@ -119,12 +120,13 @@
 }
 
 .actionCard {
-  background: linear-gradient(135deg, rgba(24, 24, 27, 0.8) 0%, rgba(39, 39, 42, 0.4) 100%);
-  border: 1px solid #27272a;
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
   border-radius: 20px;
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .actionCard:hover {
@@ -142,7 +144,7 @@
 }
 
 .actionCard p {
-  color: #a1a1aa;
+  color: #52525b;
   margin-bottom: 2rem;
   line-height: 1.5;
 }
@@ -185,15 +187,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #0a0a0b;
-  color: #ededed;
+  background: #ffffff;
+  color: #1a1a1a;
   gap: 1rem;
 }
 
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #27272a;
+  border: 5px solid #e4e4e7;
   border-bottom-color: #2563eb;
   border-radius: 50%;
   display: inline-block;
