@@ -47,6 +47,7 @@
   font-weight: 800;
   background: linear-gradient(to right, #2563eb, #ef4444);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -60,13 +61,16 @@
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s ease;
-  border: 1px solid transparent;
+  border: 1px solid #ec4899;
+  color: #ec4899;
+  background: transparent;
 }
 
 .outlineBtn:hover {
-  background: var(--secondary);
+  background: rgba(236, 72, 153, 0.1);
+  transform: translateY(-1px);
 }
 
 .primaryBtn {
@@ -154,14 +158,16 @@
 }
 
 .secondaryBtnLarge {
-  background: #2563eb;
+  background: #ec4899;
   color: white;
-  border: 1px solid #1d4ed8;
+  border: none;
+  box-shadow: 0 4px 14px rgba(236, 72, 153, 0.4);
 }
 
 .secondaryBtnLarge:hover {
-  background: #1d4ed8;
+  background: #db2777;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
 }
 
 .featuresCards {
