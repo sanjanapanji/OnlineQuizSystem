@@ -63,6 +63,12 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+class ScoreCreate(BaseModel):
+    quiz_id: str
+    quiz_title: str
+    score: int
+    total: int
+
 # Database Dependency
 def get_db():
     conn = None
@@ -72,6 +78,17 @@ def get_db():
     finally:
         if conn:
             conn.close()
+
+# Auth Dependency
+def get_current_user(token: str, db = Depends(get_db)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("id")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return user_id
+    except:
+        raise HTTPException(status_code=401, detail="Invalid token")
 
 # Routes
 @app.get("/")
@@ -139,3 +156,69 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
             "full_name": user["full_name"]
         }
     }, headers=CORS_HEADERS)
+
+@app.post("/api/scores")
+def save_score(score: ScoreCreate, token: str, db = Depends(get_db)):
+    user_id = get_current_user(token, db)
+    cursor = db.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO quiz_attempts (user_id, quiz_id, quiz_title, score, total) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+            (user_id, score.quiz_id, score.quiz_title, score.score, score.total)
+        )
+        new_score = cursor.fetchone()
+        db.commit()
+        return JSONResponse(content={"status": "success", "id": new_score['id']}, headers=CORS_HEADERS)
+    except Exception as e:
+        db.rollback()
+        print(f"SCORE ERROR: {e}")
+        raise HTTPException(status_code=500, detail="Failed to save score")
+    finally:
+        cursor.close()
+
+@app.get("/api/rankings")
+def get_rankings(db = Depends(get_db)):
+    cursor = db.cursor()
+    try:
+        # Get top scores per user per topic
+        query = """
+            SELECT DISTINCT ON (u.email, qa.quiz_id) 
+                u.full_name as name, 
+                qa.quiz_title as topic, 
+                qa.score, 
+                qa.total, 
+                qa.created_at as date
+            FROM quiz_attempts qa
+            JOIN users u ON qa.user_id = u.id
+            ORDER BY u.email, qa.quiz_id, qa.score DESC, qa.created_at DESC
+            LIMIT 50
+        """
+        # (Actually, for a real leaderboard, we might want just global top)
+        # Simplified global top 50:
+        query = """
+            SELECT 
+                u.full_name as name, 
+                qa.quiz_title as topic, 
+                qa.score, 
+                qa.total, 
+                qa.created_at as date
+            FROM quiz_attempts qa
+            JOIN users u ON qa.user_id = u.id
+            ORDER BY qa.score DESC, qa.created_at DESC
+            LIMIT 50
+        """
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        
+        # Format dates for JSON
+        for row in rows:
+            row['date'] = row['date'].strftime('%Y-%m-%d')
+            row['score'] = f"{row['score']}/{row['total']}"
+            row['topic'] = row['topic'].split(' ')[0] # Just the first word e.g. "Python"
+            
+        return JSONResponse(content=rows, headers=CORS_HEADERS)
+    except Exception as e:
+        print(f"RANKINGS ERROR: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch rankings")
+    finally:
+        cursor.close()

@@ -47,7 +47,7 @@ export default function QuizTakingPage({ params: paramsPromise }) {
     });
   };
 
-  const calculateScore = () => {
+  const calculateScore = async () => {
     let newScore = 0;
     quiz.questions.forEach((q, idx) => {
       if (answers[idx] === q.answer) {
@@ -55,16 +55,38 @@ export default function QuizTakingPage({ params: paramsPromise }) {
       }
     });
 
-    // Save to LocalStorage History
-    const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
-    history.push({
+    const quizData = {
       quizId: quiz.id,
       title: quiz.title,
       score: newScore,
       total: quiz.questions.length,
       date: new Date().toISOString()
-    });
+    };
+
+    // 1. Save to LocalStorage History (Backup/Legacy)
+    const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+    history.push(quizData);
     localStorage.setItem('quizHistory', JSON.stringify(history));
+
+    // 2. Save to Neon Database via API
+    try {
+      const token = localStorage.getItem('token');
+      const apiUrl = "https://online-quiz-backend-mp09.onrender.com";
+      
+      await fetch(`${apiUrl}/api/scores?token=${token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          quiz_id: quiz.id,
+          quiz_title: quiz.title,
+          score: newScore,
+          total: quiz.questions.length
+        }),
+      });
+      console.log("Score saved to database successfully.");
+    } catch (err) {
+      console.error("Failed to save score to database:", err);
+    }
 
     setScore(newScore);
     setShowResults(true);

@@ -27,7 +27,7 @@ export default function RankingsPage() {
     const userData = JSON.parse(storedUser);
     setUser(userData);
 
-    // Load Local Stats
+    // 1. Load Local Stats (Keep for the UI overview)
     const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
     let avg = 0;
     if (history.length > 0) {
@@ -37,35 +37,38 @@ export default function RankingsPage() {
     }
     setUserStats({ totalQuizzes: history.length, averageScore: avg });
 
-    // Mock Global Rankings (Plus user if they have scores)
-    const mockGlobal = [
-      { name: 'Alex Johnson', topic: 'Python', score: '10/10', date: '2026-03-25' },
-      { name: 'Sarah Chen', topic: 'Java', score: '9/10', date: '2026-03-26' },
-      { name: 'Michael Ross', topic: 'Python', score: '9/10', date: '2026-03-24' },
-      { name: 'Emma Wilson', topic: 'Java', score: '8/10', date: '2026-03-27' },
-    ];
+    // 2. Fetch Global Rankings from Neon DB
+    const fetchRankings = async () => {
+      try {
+        const apiUrl = "https://online-quiz-backend-mp09.onrender.com";
+        const response = await fetch(`${apiUrl}/api/rankings`);
+        if (response.ok) {
+          const data = await response.json();
+          // Add "isUser" flag to the current user's entry if found
+          const processed = data.map(ranker => ({
+            ...ranker,
+            isUser: ranker.name === userData.full_name
+          }));
+          setRankings(processed);
+        } else {
+          throw new Error("Failed to fetch rankings");
+        }
+      } catch (err) {
+        console.error("Rankings fetch error:", err);
+        // Fallback to minimal local ranking if API fails
+        setRankings([{ 
+          name: `${userData.full_name} (Local)`, 
+          topic: history[0]?.title.split(' ')[0] || 'Unknown', 
+          score: `${history[0]?.score || 0}/${history[0]?.total || 10}`, 
+          date: new Date().toISOString().split('T')[0],
+          isUser: true 
+        }]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // Add current user if they have taken a quiz
-    if (history.length > 0) {
-      const latest = history[0];
-      mockGlobal.push({
-        name: `${userData.full_name} (You)`,
-        topic: latest.title.split(' ')[0],
-        score: `${latest.score}/${latest.total}`,
-        date: new Date(latest.date).toISOString().split('T')[0],
-        isUser: true
-      });
-    }
-
-    // Sort by score (simplified)
-    const sorted = mockGlobal.sort((a, b) => {
-      const scoreA = parseInt(a.score.split('/')[0]);
-      const scoreB = parseInt(b.score.split('/')[0]);
-      return scoreB - scoreA;
-    });
-
-    setRankings(sorted);
-    setLoading(false);
+    fetchRankings();
   }, [router]);
 
   if (loading) {
