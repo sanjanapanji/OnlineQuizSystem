@@ -180,9 +180,9 @@ def save_score(score: ScoreCreate, token: str, db = Depends(get_db)):
 def get_rankings(db = Depends(get_db)):
     cursor = db.cursor()
     try:
-        # Get top scores per user per topic
+        # Get only the HIGHEST score for each UNIQUE player (Across any topic)
         query = """
-            SELECT DISTINCT ON (u.email, qa.quiz_id) 
+            SELECT DISTINCT ON (u.email) 
                 u.full_name as name, 
                 qa.quiz_title as topic, 
                 qa.score, 
@@ -190,31 +190,20 @@ def get_rankings(db = Depends(get_db)):
                 qa.created_at as date
             FROM quiz_attempts qa
             JOIN users u ON qa.user_id = u.id
-            ORDER BY u.email, qa.quiz_id, qa.score DESC, qa.created_at DESC
-            LIMIT 50
-        """
-        # (Actually, for a real leaderboard, we might want just global top)
-        # Simplified global top 50:
-        query = """
-            SELECT 
-                u.full_name as name, 
-                qa.quiz_title as topic, 
-                qa.score, 
-                qa.total, 
-                qa.created_at as date
-            FROM quiz_attempts qa
-            JOIN users u ON qa.user_id = u.id
-            ORDER BY qa.score DESC, qa.created_at DESC
+            ORDER BY u.email, qa.score DESC, qa.created_at DESC
             LIMIT 50
         """
         cursor.execute(query)
         rows = cursor.fetchall()
         
+        # Sort by score globally (since DISTINCT ON requires ordering by the distinct key first)
+        rows.sort(key=lambda x: x['score'], reverse=True)
+        
         # Format dates for JSON
         for row in rows:
             row['date'] = row['date'].strftime('%Y-%m-%d')
             row['score'] = f"{row['score']}/{row['total']}"
-            row['topic'] = row['topic'].split(' ')[0] # Just the first word e.g. "Python"
+            row['topic'] = row['topic'].split(' ')[0] # e.g. "Python Fundamentals" -> "Python"
             
         return JSONResponse(content=rows, headers=CORS_HEADERS)
     except Exception as e:
