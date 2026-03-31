@@ -121,32 +121,7 @@ export default function RankingsPage() {
           })()}
         </section>
 
-        <section className={styles.fullRankings}>
-          <div className={styles.tableCard}>
-            <table className={styles.rankTable}>
-              <thead>
-                <tr>
-                  <th>Rank</th>
-                  <th>Player</th>
-                  <th>Topic</th>
-                  <th>Score</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rankings.map((ranker, index) => (
-                  <tr key={index} className={ranker.isUser ? styles.userRow : ''}>
-                    <td>#{index + 1}</td>
-                    <td className={styles.playerName}>{ranker.name}</td>
-                    <td>{ranker.topic}</td>
-                    <td className={styles.playerScore}>{ranker.score}</td>
-                    <td>{ranker.date}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        {/* Full rankings table removed based on user request */}
       </main>
     </div>
   );
