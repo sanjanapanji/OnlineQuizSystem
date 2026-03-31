@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
-  background-color: #ffffff;
-  color: #1a1a1a;
+  background-color: #000000;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
 }
@@ -11,9 +11,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #e4e4e7;
+  border-bottom: 1px solid #27272a;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -31,7 +31,7 @@
 .quizTitleNav {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #ffffff;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -46,7 +46,7 @@
 .userName, .progressText {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #52525b;
+  color: #a1a1aa;
 }
 
 .exitBtn {
@@ -89,21 +89,21 @@
 }
 
 .questionCard {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(24, 24, 27, 0.6);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 3rem;
   border-radius: 24px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
 .questionText {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #ffffff;
   margin-bottom: 2.5rem;
   line-height: 1.4;
   letter-spacing: -0.01em;
@@ -121,10 +121,10 @@
   align-items: center;
   width: 100%;
   padding: 1.25rem;
-  background: rgba(244, 244, 245, 0.5);
+  background: rgba(39, 39, 42, 0.4);
   border: 2px solid transparent;
   border-radius: 16px;
-  color: #1a1a1a;
+  color: #ededed;
   font-size: 1.1rem;
   font-weight: 500;
   text-align: left;
@@ -145,8 +145,8 @@
 }
 
 .optionLetter {
-  background: #e4e4e7;
-  color: #52525b;
+  background: #27272a;
+  color: #a1a1aa;
   width: 32px;
   height: 32px;
   display: flex;
@@ -176,8 +176,8 @@
 .navBtn {
   padding: 1rem 2rem;
   background: transparent;
-  color: #1a1a1a;
-  border: 1px solid #e4e4e7;
+  color: #ffffff;
+  border: 1px solid #27272a;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
@@ -217,13 +217,13 @@
 /* Results Screen Styles */
 
 .resultsCard {
-  background: #ffffff;
-  border: 1px solid #e4e4e7;
+  background: #0a0a0b;
+  border: 1px solid #27272a;
   padding: 4rem 2rem;
   border-radius: 24px;
   text-align: center;
   margin-top: 2rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
 
 .resultIcon {
@@ -241,7 +241,7 @@
 }
 
 .resultText {
-  color: #52525b;
+  color: #a1a1aa;
   font-size: 1.2rem;
   margin-bottom: 3rem;
 }
@@ -250,7 +250,7 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #000000;
   border: 8px solid #2563eb;
   display: flex;
   flex-direction: column;
@@ -263,7 +263,7 @@
 .scoreText {
   font-size: 4rem;
   font-weight: 800;
-  color: #1a1a1a;
+  color: #ffffff;
   line-height: 1;
 }
 
@@ -276,7 +276,7 @@
 .feedbackMsg {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #ffffff;
   margin-bottom: 3rem;
 }
 
@@ -297,8 +297,8 @@
 
 .retryBtn {
   background: transparent;
-  color: #1a1a1a;
-  border: 1px solid #e4e4e7;
+  color: #ffffff;
+  border: 1px solid #27272a;
 }
 
 .retryBtn:hover {
@@ -321,8 +321,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
-  color: #1a1a1a;
+  background: #000000;
+  color: #ffffff;
   gap: 1rem;
 }
 
