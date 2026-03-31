@@ -99,29 +99,44 @@ export default function RankingsPage() {
         </header>
 
         <section className={styles.topThree}>
-          {(() => {
-            const topThree = rankings.slice(0, 3);
-            if (topThree.length === 0) return null;
-            
-            // Standard podium order: [Silver (2), Gold (1), Bronze (3)]
-            const podiumOrder = [];
-            if (topThree[1]) podiumOrder.push({ ...topThree[1], rank: 2 });
-            if (topThree[0]) podiumOrder.push({ ...topThree[0], rank: 1 });
-            if (topThree[2]) podiumOrder.push({ ...topThree[2], rank: 3 });
-            
-            return podiumOrder.map((ranker, index) => (
-              <div key={index} className={`${styles.rankCard} ${styles[`rank${ranker.rank}`]}`}>
-                <div className={styles.crown}>{ranker.rank === 1 ? '👑' : ranker.rank === 2 ? '🥈' : '🥉'}</div>
-                <div className={styles.rankAvatar}>{ranker.name.charAt(0)}</div>
-                <h3>{ranker.name}</h3>
-                <div className={styles.rankScore}>{ranker.score}</div>
-                <div className={styles.rankTopic}>{ranker.topic}</div>
-              </div>
-            ));
-          })()}
+          {rankings.slice(0, 3).map((ranker, index) => (
+            <div key={index} className={`${styles.rankCard} ${styles[`rank${index + 1}`]}`}>
+              <div className={styles.crown}>{index === 0 ? '👑' : index === 1 ? '🥈' : '🥉'}</div>
+              <div className={styles.rankAvatar}>{ranker.name.charAt(0)}</div>
+              <h3>{ranker.name}</h3>
+              <div className={styles.rankScore}>{ranker.score}</div>
+              <div className={styles.rankTopic}>{ranker.topic}</div>
+            </div>
+          ))}
         </section>
 
-        {/* Full rankings table removed based on user request */}
+        <section className={styles.fullRankings}>
+          <h2 className={styles.sectionTitle}>Detailed Standings</h2>
+          <div className={styles.tableCard}>
+            <table className={styles.rankTable}>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Player</th>
+                  <th>Topic</th>
+                  <th>Score</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rankings.map((ranker, index) => (
+                  <tr key={index} className={ranker.isUser ? styles.userRow : ''}>
+                    <td>#{index + 1}</td>
+                    <td className={styles.playerName}>{ranker.name}</td>
+                    <td>{ranker.topic}</td>
+                    <td className={styles.playerScore}>{ranker.score}</td>
+                    <td>{ranker.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
       </main>
     </div>
   );

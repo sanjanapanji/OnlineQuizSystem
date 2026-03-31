@@ -24,6 +24,7 @@
   font-weight: 800;
   background: linear-gradient(to right, #2563eb, #ef4444);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
 }
@@ -76,6 +77,7 @@
   margin-bottom: 0.5rem;
   background: linear-gradient(to right, #1a1a1a, #52525b);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -88,10 +90,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 1.5rem;
+  gap: 2rem;
   margin-bottom: 4rem;
   padding-top: 2rem;
-  flex-wrap: wrap; /* allow wrapping on narrow screens */
 }
 
 .rankCard {
@@ -101,41 +102,31 @@
   padding: 2rem;
   text-align: center;
   flex: 1;
-  min-width: 220px; /* prevent too much squishing */
-  max-width: 280px;
+  max-width: 250px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
   position: relative;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
 .rankCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .rank1 {
-  height: 340px;
+  height: 320px;
   border: 2px solid #fbbf24;
   background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
   z-index: 2;
-  order: 2; /* always middle on desktop */
 }
 
 .rank2 {
-  height: 290px;
+  height: 280px;
   border: 1px solid #94a3b8;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  order: 1; /* left on desktop */
 }
 
 .rank3 {
   height: 260px;
   border: 1px solid #92400e;
-  background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
-  order: 3; /* right on desktop */
 }
 
 .crown {
@@ -179,6 +170,19 @@
   color: #71717a;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.fullRankings {
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  text-align: left;
 }
 
 .tableCard {
@@ -253,35 +257,14 @@
   100% { transform: rotate(360deg); }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 768px) {
   .topThree {
+    flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
   }
   
   .rankCard {
+    width: 100%;
     height: auto !important;
-    min-width: 250px;
-    max-width: 320px;
-    order: unset !important; /* Stack in natural order: Gold, then Silver, then Bronze (from JS) */
-    padding: 1.5rem;
-  }
-  
-  .rank1 {
-    order: -1 !important; /* Move Gold to top when stacked */
-  }
-}
-
-@media (max-width: 640px) {
-  .main {
-    padding: 2rem 5%;
-  }
-  
-  .header h1 {
-    font-size: 2rem;
-  }
-  
-  .rankCard {
-    min-width: 100%;
   }
 }
