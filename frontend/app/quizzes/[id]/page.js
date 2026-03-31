@@ -173,7 +173,7 @@ export default function QuizTakingPage({ params: paramsPromise }) {
 
         <div className={styles.navigationControls}>
           <button
-            className={styles.navBtn}
+            className={`${styles.navBtn} ${styles.secondaryNavBtn}`}
             disabled={currentIdx === 0}
             onClick={() => setCurrentIdx(currentIdx - 1)}
           >

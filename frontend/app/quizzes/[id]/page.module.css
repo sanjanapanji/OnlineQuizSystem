@@ -24,6 +24,7 @@
   font-weight: 800;
   background: linear-gradient(to right, #2563eb, #ef4444);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
 }
@@ -199,7 +200,13 @@
   border-color: #2563eb;
 }
 
-.primaryNavBtn:hover:not(:disabled) {
+.secondaryNavBtn {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.primaryNavBtn:hover:not(:disabled), .secondaryNavBtn:hover:not(:disabled) {
   background: #1d4ed8;
 }
 
@@ -236,6 +243,7 @@
   margin-bottom: 1rem;
   background: linear-gradient(to right, #60a5fa, #c084fc);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
