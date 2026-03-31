@@ -113,19 +113,19 @@
 }
 
 .rank1 {
-  height: 320px;
+  min-height: 340px;
   border: 2px solid #fbbf24;
   background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
   z-index: 2;
 }
 
 .rank2 {
-  height: 280px;
+  min-height: 300px;
   border: 1px solid #94a3b8;
 }
 
 .rank3 {
-  height: 260px;
+  min-height: 280px;
   border: 1px solid #92400e;
 }
 
