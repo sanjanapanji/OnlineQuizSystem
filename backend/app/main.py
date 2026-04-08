@@ -63,6 +63,10 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+class UserResetPassword(BaseModel):
+    email: EmailStr
+    new_password: str = Field(..., min_length=6)
+
 class ScoreCreate(BaseModel):
     quiz_id: str
     quiz_title: str
@@ -156,6 +160,35 @@ def login(user_credentials: UserLogin, db = Depends(get_db)):
             "full_name": user["full_name"]
         }
     }, headers=CORS_HEADERS)
+
+@app.post("/api/auth/reset-password")
+def reset_password(data: UserResetPassword, db = Depends(get_db)):
+    print(f"RESET ATTEMPT: {data.email}")
+    cursor = db.cursor()
+    try:
+        cursor.execute("SELECT id FROM users WHERE email = %s", (data.email,))
+        if not cursor.fetchone():
+            print(f"RESET FAILED: User not found {data.email}")
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        safe_password_bytes = data.new_password.encode('utf-8')[:71]
+        hashed = bcrypt.hashpw(safe_password_bytes, bcrypt.gensalt()).decode('utf-8')
+        
+        cursor.execute(
+            "UPDATE users SET password_hash = %s WHERE email = %s",
+            (hashed, data.email)
+        )
+        db.commit()
+        print(f"RESET SUCCESS: {data.email}")
+        return JSONResponse(content={"status": "success", "message": "Password updated successfully"}, headers=CORS_HEADERS)
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        print(f"RESET ERROR: {e}")
+        raise HTTPException(status_code=500, detail="Failed to reset password")
+    finally:
+        cursor.close()
 
 @app.post("/api/scores")
 def save_score(score: ScoreCreate, token: str, db = Depends(get_db)):
